@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>mutat.io</title>
+    <!-- CSS -->
+    <link href="/style.css" rel="stylesheet" type="text/css" />
+    <!-- JS -->
+    <script src="/sidenav.js"></script>
+    <!-- Roboto -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/30ccb5ba0b.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="sidenav" class="sidenav" style="display:none;">
+      <button onclick="closeSidenav()"><i class="fas fa-times-circle fa-fw"></i> Close</button>
+      <a onclick="loadPage('/units.html')" href="#"><i class="fas fa-weight-hanging fa-fw"></i> Units</a>
+      <a onclick="loadPage('/files.html')" href="#"><i class="fas fa-file fa-fw"></i> Files</a>
+      <a onclick="loadPage('/languages.html')" href="#"><i class="fas fa-language fa-fw"></i> Languages</a>
+      <a onclick="loadPage('/time.html')" href="#"><i class="fas fa-clock fa-fw"></i> Time</a>
+      <a onclick="loadPage('/about.html')" href="#"><i class="fas fa-info-circle fa-fw"></i> About</a>
+      <a onclick="window.open('')"></a>
+    </div>
+    <div id="topbar">
+      <button id="openSidenav" onclick="openSidenav()">&#9776;</button>
+      <span><i id="logo-icon" class="fas fa-sync-alt"></i> mutat.io</span>
+    </div>
+    <div id="main">
+      <iframe id="mainIFrame" src="/units.html"></iframe>
+    </div>
+  </body>
+</html>

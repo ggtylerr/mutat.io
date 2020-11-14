@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>mutat.io</title>
+  <!-- CSS -->
+  <link href="/style.css" rel="stylesheet" type="text/css" />
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.5.1/math.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="/selectgrid.js"></script>
+  <script src="/units.js"></script>
+  <!-- Roboto -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/30ccb5ba0b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="main">
+    <h1><i class="fas fa-weight-hanging fa-fw"></i> Units</h1>
+    <div class="select-box" id="selected"><i class="fas fa-weight-hanging fa-fw"></i> Mass</div>
+    <table class="select-box-options">
+      <tr>
+        <td>
+          <button type="button" class="select-box-option-button">
+            <i class="fas fa-square fa-fw"></i><span> Area</span>
+          </button>
+        </td>
+        <td>
+          <button type="button" class="select-box-option-button">
+            <i class="fas fa-ruler-horizontal fa-fw"></i><span> Length</span>
+          </button>
+        </td>
+        <td>
+          <button type="button" class="select-box-option-button">
+            <i class="fas fa-thermometer-half fa-fw"></i><span> Temperature</span>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="button" class="select-box-option-button">
+            <i class="fas fa-cube fa-fw"></i><span> Volume</span>
+          </button>
+        </td>
+        <td>
+          <button type="button" class="select-box-option-button">
+            <i class="fas fa-weight-hanging fa-fw"></i><span> Mass</span>
+          </button>
+        </td>
+        <td>
+          <button type="button" class="select-box-option-button">
+            <i class="fas fa-database fa-fw"></i><span> Data</span>
+          </button>
+        </td>
+      </tr>
+    </table>
+    <br/>
+    <table class="unit-table">
+      <tr>
+        <td class="unit-td"><input class="unit-input" id="from" oninput="convertUnits()" autocomplete="off"/></td>
+        <td class="unit-td-sym"><span class="unit-symbol" id="from-symbol"></span></td>
+        <td class="unit-td"><select class="unit-select" id="from-prefix-select" style="display:none;" onchange="prefixChange()"></select><select class="unit-select" id="from-select" onchange="unitChange()">
+        </select></td>
+      </tr>
+      <tr style="text-align:center;">
+        <td class="unit-td"><i class="fas fa-long-arrow-alt-down"></i></td>
+        <td class="unit-td"><button class="unit-rotate" type="button" onclick="unitRotate()" style="font-size:24px;"><i id="unit-rotate-icon" class="fas fa-sync-alt"></i></button></td>
+        <td class="unit-td"><i class="fas fa-long-arrow-alt-down"></i></td>
+      </tr>
+      <tr>
+        <td class="unit-td"><input class="unit-input" id="to" oninput="convertUnits(true)" autocomplete="off"/></td>
+        <td class="unit-td-sym"><span class="unit-symbol" id="to-symbol"></span></td>
+        <td class="unit-td"><select class="unit-select" id="to-prefix-select" style="display:none;" onchange="prefixChange(true)"></select><select class="unit-select" id="to-select" onchange="unitChange(false,true)"></select></td>
+      </tr>
+    </table>
+    <div class="unit-eq" id="unit-eq">
+      $$loaded=false$$
+    </div>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        "HTML-CSS": { 
+          linebreaks: { automatic: true }
+        },
+        SVG: { 
+          linebreaks: { automatic: true } 
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>

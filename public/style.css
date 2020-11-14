@@ -1,0 +1,218 @@
+body {
+  background: #222222;
+  font-family: 'Roboto', sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* The sidebar menu */
+.sidenav {
+  height: 100%;
+  width: 190px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+  -webkit-animation: goleft 0.4s;
+  -moz-animation: goleft 0.4s;
+  animation: goleft 0.4s;
+  transition: margin-left .4s;
+}
+
+@-moz-keyframes goleft {from{left:-300px;opacity:0} to{left:0;opacity:1}}
+@-webkit-keyframes goleft {from{left:-300px;opacity:0} to{left:0;opacity:1}}
+@keyframes goleft {from{left:-300px;opacity:0} to{left:0;opacity:1}}
+
+/* The navigation menu links */
+.sidenav button {
+  padding: 6px 8px 6px 16px;
+  font-size: 25px;
+  color: #818181;
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+.sidenav button:hover {
+  color: #f1f1f1;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Style page content */
+.main {
+  padding: 0px 10px;
+  color: #818181;
+  margin-left: 0%;
+  transition: margin-left .4s;
+  position: absolute;
+  width: calc(100% - 55px);
+}
+#main {
+  transition: margin-left .4s;
+  position: absolute;
+  top: 49px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url(/loading.gif) center center no-repeat;
+}
+#main iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+#topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 6px 8px 6px 16px;
+  background-color: #111;
+  color: #818181;
+  width: 100%;
+  font-size: 30px;
+  margin-left: 0%;
+  transition: margin-left .4s;
+}
+#topbar button {
+  color: #818181;
+  font-size: 25px;
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+  .sidenav button {font-size: 18px;}
+}
+
+/* Selection box */
+.select-box {
+  border: 1px solid #818181;
+  border-radius: 16px;
+  text-align: center;
+  padding: 10px;
+  transition-duration: 0.4s;
+  width: 100%;
+}
+
+.select-box-hover {
+  border: 1px solid #818181;
+  border-radius: 16px;
+  text-align: center;
+  padding: 10px;
+  color: #f1f1f1;
+  background-color: #818181;
+}
+
+/* Options */
+table {
+  display: none;
+  width: calc(100% + 23px);
+}
+
+td {
+  width: 33.33%;
+  border: 1px solid #818181;
+}
+
+.select-box-options {
+  transition: height .4s;
+}
+
+.select-box-option-button {
+  padding: 10px;
+  width: 100%;
+  color:#818181;
+  background-color: #222222;
+  border: none;
+  transition-duration: 0.4s;
+}
+
+.select-box-option-button:hover {
+  background-color: #818181;
+  color: white;
+}
+
+.select-box-option-button:focus {outline:0;}
+
+/* Units */
+.unit-table{display:inline-table;width:100%;}
+.unit-td{border:none;}
+.unit-td-sym{width:15%;border:none;}
+.unit-input{
+  background-color:Transparent;
+  border:none;
+  border-bottom:1px solid #818181;
+  color:#818181;
+  width:100%;
+}
+.unit-symbol{
+  position:relative;
+  left:5px;
+  color:#818181
+}
+.unit-td .fas {color:#818181;}
+.unit-select{
+  background-color:Transparent;
+  border:none;
+  border-bottom:1px solid #818181;
+  color:#818181;
+  width:100%;
+}
+.unit-rotate{
+  background-color:Transparent;
+  background-repeat:no-repeat;
+  outline:none;
+  border:none;
+  cursor:pointer;
+  overflow:hidden;
+  color:#818181;
+}
+.unit-eq {
+  display: inline-block;
+  width: 100%;
+  border: 1px solid #818181;
+}
+#spin{
+  -webkit-animation:spin 500ms;
+  -moz-animation:spin 500ms;
+  animation:spin 500ms;
+}
+#spin-logo{
+  -webkit-animation:spin 500ms;
+  -moz-animation:spin 500ms;
+  animation:spin 500ms;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(180deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(180deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(180deg); transform:rotate(180deg); } }
+@media screen and (max-width: 960px) {
+  .unit-table{width:100%;}
+  .unit-eq{width:100%;}
+}
+.halfwidth {width:50%}
