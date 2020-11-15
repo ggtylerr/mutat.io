@@ -130,7 +130,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the LGPL-2.0 License. See `LICENSE` for more information.
+Distributed under the LGPL-2.1 License. See `LICENSE` for more information.
 
 
 
