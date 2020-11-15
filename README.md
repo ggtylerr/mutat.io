@@ -111,6 +111,7 @@ _For more examples, please refer to the [Documentation](https://mutatio.readthed
 ## Roadmap
 
 See the [open issues](https://github.com/ggtylerr/mutat.io/issues) for a list of proposed features (and known issues).
+You can also see the [current projects](https://github.com/ggtylerr/mutat.io/projects) for a list of planned features to be added.
 
 
 
