@@ -21,7 +21,7 @@
     <a href="https://mutatio.readthedocs.io/en/latest/index.html"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://mutatio.ggtylerr.digital/">View Website</a>
+    <a href="https://mutatio.ggtylerr.dev/">View Website</a>
     ·
     <a href="https://repl.it/@TylerFlowers/mutatio">View on repl.it</a>
     ·
@@ -51,7 +51,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![mutat.io screenshot][product-screenshot]](https://mutatio.ggtylerr.digital)
+[![mutat.io screenshot][product-screenshot]](https://mutatio.ggtylerr.dev)
 
 mutat.io is meant to be the one and only conversion tool you need - whether that would be for units, timezones, files, or even languages. It also has an extensive documentation, allowing for anyone to extend it and add their own features.
 
