@@ -17,22 +17,21 @@ function updateUnits(type) {
     // Set options
     for (x in units) {
       if (!x.startsWith("__")) {
-        var o = new Option(x,x);
+        let v = x;
+        if (x.startsWith("*")) x = x.substring(1);
+        var o = new Option(x,v);
         $(o).html(x).attr('label',x);
         $('#from-select').append(o);
-        var t = new Option(x,x);
+        var t = new Option(x,v);
         $(t).html(x).attr('label',x);
         $('#to-select').append(t);
       }
     }
     // Select default
-    if (units['__defaultFrom'] != undefined) {
-      $("#from-select").children(`[value="${units['__defaultFrom']}"]`).attr('selected',true);
-    }
-    else {
-      $("#from-select").children(`[value="${units['__si']}"]`).attr('selected',true);
-    }
-    $("#to-select").children(`[value="${units['__defaultTo']}"]`).attr('selected',true);
+    if (units['__defaultFrom'] != undefined) 
+      $("#from-select").val(units['__defaultFrom']);
+    else $("#from-select").val(units['__si']);
+    $("#to-select").val(units['__defaultTo']);
   });
 }
 
@@ -43,8 +42,8 @@ function convertUnits(reverse=false) {
   $.getJSON('/unit_rates.json',function(json) {
     var units = json[$('#selected').text().substr(1)];
     // Get selected units
-    var fromUnit = $('#from-select option').filter(':selected').val();
-    var toUnit = $('#to-select option').filter(':selected').val();
+    var fromUnit = $('#from-select').val();
+    var toUnit = $('#to-select').val();
     // Get value
     var fromValue = $('#from').val();
     // Reverse if needed
@@ -70,8 +69,8 @@ function convertUnits(reverse=false) {
     var converted = math.bignumber(0);
     if (units[fromUnit].p != undefined) {
       var p = "";
-      if (!reverse) p = $("#from-prefix-select option").filter(':selected').val();
-      else p = $('#to-prefix-select option').filter(':selected').val();
+      if (!reverse) p = $("#from-prefix-select").val();
+      else p = $('#to-prefix-select').val();
       if (p != "(no prefix)") {
         if (json["__prefix"][units[fromUnit].p][p].f != undefined) {
           var f = json["__prefix"][units[fromUnit].p][p].f;
@@ -124,8 +123,8 @@ function convertUnits(reverse=false) {
     // Convert value to base (if prefix)
     if (units[toUnit].p != undefined) {
       var p = "";
-      if (!reverse) p = $("#to-prefix-select option").filter(':selected').val();
-      else p = $("#from-prefix-select option").filter(':selected').val();
+      if (!reverse) p = $("#to-prefix-select").val();
+      else p = $("#from-prefix-select").val();
       if (p != "(no prefix)") {
         if (json["__prefix"][units[toUnit].p][p].f != undefined) {
           var a = converted;
@@ -204,28 +203,49 @@ function unitChange(first=false,to=false) {
   $.getJSON('/unit_rates.json',function(json) {
     var units = json[$('#selected').text().substr(1)];
     // Get selected units
-    var fromUnit = $('#from-select option').filter(':selected').val();
-    var toUnit = $('#to-select option').filter(':selected').val();
+    var fromUnit = $('#from-select').val();
+    var toUnit = $('#to-select').val();
     // Set selected units if it's the first time
     if (first) {
       if (units['__defaultFrom'] != undefined) {
-        $("#from-select").children(`[value="${units['__defaultFrom']}"]`).attr('selected',true);
+        $("#from-select").val(units['__defaultFrom']);
         fromUnit = units['__defaultFrom'];
       } else {
-        $("#from-select").children(`[value="${units['__si']}"]`).attr('selected',true);
+        $("#from-select").val(units['__si']);
         fromUnit = units['__si'];
       }
-      $("#to-select").children(`[value="${units['__defaultTo']}"]`).attr('selected',true);
+      $("#to-select").val(units['__defaultTo']);
       toUnit = units['__defaultTo'];
     }
+    // Handle common values w/ prefix
+    var fp = null;
+    if (fromUnit.startsWith("*")) {
+      $("#from-select").val(units[fromUnit].n);
+      fp = units[fromUnit].p;
+      fromUnit = units[fromUnit].n;
+    }
+    var tp = null;
+    if (toUnit.startsWith("*")) {
+      $("#to-select").val(units[toUnit].n);
+      tp = units[toUnit].p;
+      toUnit = units[toUnit].n;
+    }
     // Change symbols
-    $("#from-symbol").text(units[fromUnit].s);
-    $("#to-symbol").text(units[toUnit].s);
+    if (!to) {
+      $("#from-symbol").text(units[fromUnit].s);
+      if (fp !== null) 
+        $("#from-symbol").text(json["__prefix"][units[fromUnit].p][fp].s + units[fromUnit].s);
+    }
+    if (to || first) {
+      $("#to-symbol").text(units[toUnit].s);
+      if (tp !== null) 
+        $("#to-symbol").text(json["__prefix"][units[toUnit].p][tp].s + units[toUnit].s);
+    }
     // Handle prefixes
     var nopre = new Option("(no prefix)","(no prefix)");
     var nopre2 = new Option("(no prefix)","(no prefix)");
     $(nopre).html("(no prefix)").attr('label','(no prefix)');
-    if (units[fromUnit]["p"] != undefined) {
+    if (units[fromUnit]["p"] != undefined && !to) {
       $("#from-prefix-select").empty();
       var pre = units[fromUnit]["p"];
       $(nopre).html("(no prefix)").attr('prefix',pre);
@@ -236,16 +256,18 @@ function unitChange(first=false,to=false) {
         $(o).html(x).attr('prefix',pre);
         $('#from-prefix-select').append(o);
       }
+      if (fp !== null) 
+        $("#from-prefix-select").children(`[value="${fp}"]`).attr('selected',true);
       $("#from-prefix-select").show();
       $("#from-prefix-select").addClass("halfwidth");
       $("#from-select").addClass("halfwidth");
-    } else {
+    } else if (!to) {
       $("#from-prefix-select").hide();
       $("#from-prefix-select").removeClass("halfwidth");
       $("#from-select").removeClass("halfwidth");
       $("#from-prefix-select").empty();
     }
-    if (units[toUnit]["p"] != undefined) {
+    if (units[toUnit]["p"] != undefined && (to || first)) {
       $("#to-prefix-select").empty();
       var pre = units[toUnit]["p"];
       $(nopre2).html("(no prefix)").attr('prefix',pre);
@@ -256,10 +278,12 @@ function unitChange(first=false,to=false) {
         $(o).html(x).attr('prefix',pre);
         $('#to-prefix-select').append(o);
       }
+      if (tp !== null) 
+        $("#to-prefix-select").children(`[value="${tp}"]`).attr('selected',true);
       $("#to-prefix-select").show();
       $("#to-prefix-select").addClass("halfwidth");
       $("#to-select").addClass("halfwidth");
-    } else {
+    } else if (to) {
       $("#to-prefix-select").hide();
       $("#to-prefix-select").removeClass("halfwidth");
       $("#to-select").removeClass("halfwidth");
@@ -275,17 +299,17 @@ function prefixChange(t=false) {
     var units = json[$('#selected').text().substr(1)];
     // Get selected units and change symbols
     if (!t) {
-      var fromUnit = $('#from-select option').filter(':selected').val();
-      var fromPrefix = $('#from-prefix-select option').filter(':selected').val();
+      var fromUnit = $('#from-select').val();
+      var fromPrefix = $('#from-prefix-select').val();
       if (fromPrefix != "(no prefix)") {
-        var prefixType = $('#from-prefix-select option').filter(':selected').attr("prefix");
+        var prefixType = $(`#from-prefix-select option[value="${fromPrefix}"]`).attr("prefix");
         $("#from-symbol").text(json["__prefix"][prefixType][fromPrefix].s + units[fromUnit].s);
       } else $("#from-symbol").text(units[fromUnit].s);
     } else {
-      var toUnit = $('#to-select option').filter(':selected').val();
-      var toPrefix = $('#to-prefix-select option').filter(':selected').val();
+      var toUnit = $('#to-select').val();
+      var toPrefix = $('#to-prefix-select').val();
       if (toPrefix != "(no prefix)") {
-        var prefixType = $('#to-prefix-select option').filter(':selected').attr("prefix");
+        var prefixType = $(`#to-prefix-select option[value="${toPrefix}"]`).attr("prefix");
         $("#to-symbol").text(json["__prefix"][prefixType][toPrefix].s + units[toUnit].s);
       } else $("#to-symbol").text(units[toUnit].s);
     }
@@ -300,10 +324,10 @@ function unitRotate() {
   setTimeout(()=>$('#spin-logo').attr('id','logo-icon'),500);
   setTimeout(()=>$('#spin').attr('id','unit-rotate-icon'),500);
   // Grab fromUnit and fromSymbol
-  var fromUnit = $('#from-select option').filter(':selected').val();
+  var fromUnit = $('#from-select').val();
   var fromSymbol = $("#from-symbol").text();
   // Switch units and symbols
-  $('#from-select').val($('#to-select option').filter(':selected').val());
+  $('#from-select').val($('#to-select').val());
   $('#to-select').val(fromUnit);
   $('#from-symbol').text($("#to-symbol").text());
   $('#to-symbol').text(fromSymbol);
@@ -311,33 +335,33 @@ function unitRotate() {
   if ($('#from-prefix-select').is(":visible")) {
     if ($('#to-prefix-select').is(":visible")) {
       var fromPrefix = $('#from-prefix-select').children();
-      var fromSelected = $('#from-prefix-select option').filter(':selected').val();
-      var toSelected = $('#to-prefix-select option').filter(':selected').val();
+      var fromSelected = $('#from-prefix-select').val();
+      var toSelected = $('#to-prefix-select').val();
       $('#from-prefix-select').empty();
       $('#from-prefix-select').append($("#to-prefix-select").children());
-      $(`#from-prefix-select option[value="${toSelected}"]`).prop('selected',true);
+      $('#from-prefix-select').val(toSelected);
       $('#to-prefix-select').empty();
       $('#to-prefix-select').append(fromPrefix);
-      $(`#to-prefix-select option[value="${fromSelected}"]`).prop('selected',true);
+      $('#to-prefix-select').val(fromSelected);
     } else {
-      var fromSelected = $('#from-prefix-select option').filter(':selected').val();
+      var fromSelected = $('#from-prefix-select').val();
       $("#from-prefix-select").hide();
       $("#from-prefix-select").removeClass("halfwidth");
       $("#from-select").removeClass("halfwidth");
       $("#to-prefix-select").append($("#from-prefix-select").children());
-      $(`#to-prefix-select option[value="${fromSelected}"]`).prop('selected',true);
+      $('#to-prefix-select').val(fromSelected);
       $("#from-prefix-select").empty();
       $("#to-prefix-select").show();
       $("#to-prefix-select").addClass("halfwidth");
       $("#to-select").addClass("halfwidth");
     }
   } else if ($("#to-prefix-select").is(":visible")) {
-    var toSelected = $('#to-prefix-select option').filter(':selected').val();
+    var toSelected = $('#to-prefix-select').val();
     $("#to-prefix-select").hide();
     $("#to-prefix-select").removeClass("halfwidth");
     $("#to-select").removeClass("halfwidth");
     $("#from-prefix-select").append($("#to-prefix-select").children());
-    $(`#from-prefix-select option[value="${toSelected}"]`).prop('selected',true);
+    $('#from-prefix-select').val(toSelected);
     $("#to-prefix-select").empty();
     $("#from-prefix-select").show();
     $("#from-prefix-select").addClass("halfwidth");

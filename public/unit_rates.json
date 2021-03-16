@@ -174,6 +174,10 @@
       "s": "sq in",
       "f": 0.00064516
     },
+    "*Square kilometre": {
+      "p": "kilo",
+      "n": "Square metre"
+    },
     "Square metre": {
       "s": "m²",
       "f": 1,
@@ -190,7 +194,7 @@
   },
   "Data": {
     "__si": "Natural Unit of Information",
-    "__defaultFrom": "Bit",
+    "__defaultFrom": "Bit; shannon",
     "__defaultTo": "Byte",
     "Bit; shannon": {
       "s": "b",
@@ -214,6 +218,26 @@
       "s": "m",
       "f": 1,
       "p": "Metric"
+    },
+    "*Kilometre": {
+      "p": "kilo",
+      "n": "Metre"
+    },
+    "*Centimetre": {
+      "p": "centi",
+      "n": "Metre"
+    },
+    "*Millimetre": {
+      "p": "milli",
+      "n": "Metre"
+    },
+    "*Micrometre": {
+      "p": "micro",
+      "n": "Metre"
+    },
+    "*Nanometre": {
+      "p": "nano",
+      "n": "Metre"
     },
     "Inch": {
       "s": "in",
@@ -247,6 +271,18 @@
       "s": "g",
       "f": 1,
       "p": "Metric"
+    },
+    "*Kilogram": {
+      "p": "kilo",
+      "n": "Gram"
+    },
+    "*Milligram": {
+      "p": "milli",
+      "n": "Gram"
+    },
+    "*Microgram": {
+      "p": "micro",
+      "n": "Gram"
     },
     "Long Ton (Imperial Ton)": {
       "s": "long tn",
@@ -333,6 +369,10 @@
       "s": "l",
       "f": 0.001,
       "p": "Metric"
+    },
+    "*Millilitre": {
+      "p": "milli",
+      "n": "Litre"
     },
     "Ounce (fluid imperial)": {
       "s": "fl oz (imp)",
